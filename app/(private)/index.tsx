@@ -9,7 +9,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text>Sehar : سحر</Text>
+      <Text>Home Screen</Text>
     </View>
   );
 }
