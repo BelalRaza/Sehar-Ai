@@ -1,15 +1,6 @@
+import SignIn from "@/components/clerk/SignIn";
 import { Text, View } from "react-native";
 
 export default function Index() {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Auth</Text>
-    </View>
-  );
+  return ( <SignIn signUpUrl="/sign-up" scheme="sehar" homeUrl="(private)" />)
 }

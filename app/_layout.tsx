@@ -14,13 +14,13 @@ if(!isLoaded){
 
   return (
   <Stack>
-    <Stack.Protected guard={true}>
+    <Stack.Protected guard={isSignedIn}>
       <Stack.Screen name="(private)"/>  
     </Stack.Protected>
 
 
-<Stack.Protected guard={false}>
-      <Stack.Screen name="(public)"/>
+<Stack.Protected guard={!isSignedIn}>
+      <Stack.Screen name="(public)" options={{headerShown:false}}/>
 </Stack.Protected>
     
   </Stack>
