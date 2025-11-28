@@ -139,7 +139,7 @@ export default function LoginScreen({ navigation }) {
             style={styles.button}
           >
             <TouchableOpacity 
-              style={styles.buttonInside}
+              style={styles.button}
               onPress={handleLogin}
               disabled={localLoading}
             >
@@ -218,15 +218,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
   },
+
   button: {
     borderRadius: 50,
-    padding: 16,
+    padding: 10,
     alignItems: 'center',
-    marginBottom: 20,
-  },
-  buttonInside: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    // marginBottom: 20,
   },
   buttonDisabled: {
     opacity: 0.6,

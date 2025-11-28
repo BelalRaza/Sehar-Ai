@@ -170,7 +170,7 @@ export default function SignupScreen({ navigation }) {
 
 
         <TouchableOpacity 
-          style={[styles.button, localLoading && styles.buttonDisabled]}
+          style={styles.button}
           onPress={handleSignup}
           disabled={localLoading}
 

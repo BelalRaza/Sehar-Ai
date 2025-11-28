@@ -1,13 +1,14 @@
 // src/config/appwrite.js
 
 import { Client, Account, ID } from 'react-native-appwrite';
+import Constants from 'expo-constants';
 
 // Appwrite configuration object
 // WHY: Centralized config makes it easy to update credentials in one place
 const appwriteConfig = {
-  endpoint: 'https://tor.cloud.appwrite.io/v1', // Your Appwrite server URL
-  projectId: '69296eb80009f1d5c2e2',        // Replace with your actual Project ID
-  platform: 'com.sehar',                  // Your app's package name
+  endpoint: Constants.expoConfig?.extra?.APPWRITE_ENDPOINT ,
+  projectId: Constants.expoConfig?.extra?.APPWRITE_PROJECT ,
+  platform: Constants.expoConfig?.extra?.APP_PLATFORM ,
 };
 
 // Initialize the Appwrite client
