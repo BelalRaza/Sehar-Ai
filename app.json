@@ -13,6 +13,7 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
+      "bundleIdentifier": "com.test1.sehar"
     },
     "android": {
       "adaptiveIcon": {
@@ -20,8 +21,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-       "package": "com.test1.sehar"
-
+      "package": "com.test1.sehar"
     },
     "web": {
       "favicon": "./assets/favicon.png"

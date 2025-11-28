@@ -16,6 +16,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAuth } from '../hooks/useAuth';
 import validation from '../utils/validation';
+import Gradient from '../components/Gradient';
 
 // LoginScreen Component
 // WHY: Provides UI for users to login with email/password
@@ -77,6 +78,8 @@ export default function LoginScreen({ navigation }) {
   };
 
   return (
+
+  
     <KeyboardAvoidingView 
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -164,6 +167,9 @@ export default function LoginScreen({ navigation }) {
 
       </ScrollView>
     </KeyboardAvoidingView>
+
+
+
   );
 }
 
@@ -171,7 +177,7 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#ae3434ff',
   },
   scrollContent: {
     flexGrow: 1,
