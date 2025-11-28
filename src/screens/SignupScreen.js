@@ -16,6 +16,7 @@ import {
 import { useAuth } from '../hooks/useAuth';
 import validation from '../utils/validation';
 import { LinearGradient } from 'expo-linear-gradient';
+import Gradient from '../components/Gradient';
 
 // SignupScreen Component
 // WHY: Provides UI for new users to create account
@@ -82,7 +83,7 @@ export default function SignupScreen({ navigation }) {
     <KeyboardAvoidingView 
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
+    ><Gradient />
       <ScrollView 
         contentContainerStyle={styles.scrollContent}
         keyboardShouldPersistTaps="handled"

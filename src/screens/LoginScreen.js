@@ -84,6 +84,9 @@ export default function LoginScreen({ navigation }) {
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
+      {/* Gradient Background */}
+      <Gradient />
+      
       <ScrollView 
         contentContainerStyle={styles.scrollContent}
         keyboardShouldPersistTaps="handled"
@@ -177,7 +180,8 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ae3434ff',
+    backgroundColor: '#fff',
+    position: 'relative',
   },
   scrollContent: {
     flexGrow: 1,
