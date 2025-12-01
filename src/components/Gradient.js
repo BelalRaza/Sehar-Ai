@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
-import { useDerivedValue, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
+import { useDerivedValue, useSharedValue, withRepeat, withSpring, withTiming } from 'react-native-reanimated';
 
 
 
@@ -31,7 +31,7 @@ const VISUAL_CONFIG = {
 
 
 const RADIUS_CONFIG = {
-  minScale: 0.6, maxScale: 1.4, speakingScale: 1.0, quietScale: 0.6,
+  minScale: 0.6, maxScale: 1.4, speakingScale: 5.0, quietScale: 0.6,
   baseRadius: {
     default: width,
     speaking: width / 4,
@@ -66,7 +66,7 @@ function getTargetY(pos) {
   switch (pos) {
     case "top": return 0;
     case "bottom": return height;
-    case "center": return VISUAL_CONFIG.center.y / 2;
+    case "center": return height / 2;
     default: return height / 2;
   }
 }
@@ -167,6 +167,21 @@ export default function Gradient({ position, isSpeaking }) {
     animatedY,
     position
   ]);
+
+
+
+  useEffect(() => {
+    if (isSpeaking) {
+      radiusScale.value = withRepeat(withTiming(RADIUS_CONFIG.speakingScale, { duration: ANIMATION_CONFIG.durations.PULSE }), -1, true)
+    }
+    else {
+      radiusScale.value = withTiming(RADIUS_CONFIG.quietScale, { duration: ANIMATION_CONFIG.durations.QUIET_TRANSITION });
+    }
+
+
+
+
+  }, [isSpeaking, radiusScale])
 
   return (
     <View style={StyleSheet.absoluteFill}>

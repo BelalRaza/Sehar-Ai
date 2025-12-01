@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthProvider } from './src/context/AuthContext';
 import { useAuth } from './src/hooks/useAuth';
 import { ActivityIndicator, View } from 'react-native';
+// import Gradient from './src/components/Gradient';
 
 // Import your screens
 import LoginScreen from './src/screens/LoginScreen';
@@ -31,14 +32,20 @@ function AppNavigator() {
   }
 
   return (
+    
     <NavigationContainer>
+
       <Stack.Navigator
-        screenOptions={{
-          headerStyle: { backgroundColor: '#6200ee' },
-          headerTintColor: '#fff',
-          headerTitleStyle: { fontWeight: 'bold' },
-        }}
+
+        // screenOptions={{
+        //   headerStyle: { backgroundColor: '#6200ee' },
+        //   headerTintColor: '#fff',
+        //   headerTitleStyle: { fontWeight: 'bold' },
+        // }}
       >
+
+
+ 
         {user ? (
           // User is logged in - show protected screens
           // WHY: Authenticated users see app content
