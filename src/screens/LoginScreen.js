@@ -85,7 +85,7 @@ export default function LoginScreen({ navigation }) {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       {/* Gradient Background */}
-      <Gradient />
+      <Gradient isSpeaking={true} position="top" />
       
       <ScrollView 
         contentContainerStyle={styles.scrollContent}
