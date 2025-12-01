@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthProvider } from './src/context/AuthContext';
 import { useAuth } from './src/hooks/useAuth';
 import { ActivityIndicator, View } from 'react-native';
+import { ElevenLabsProvider } from '@elevenlabs/react-native';
 // import Gradient from './src/components/Gradient';
 
 // Import your screens
@@ -32,26 +33,26 @@ function AppNavigator() {
   }
 
   return (
-    
+
     <NavigationContainer>
 
       <Stack.Navigator
 
-        // screenOptions={{
-        //   headerStyle: { backgroundColor: '#6200ee' },
-        //   headerTintColor: '#fff',
-        //   headerTitleStyle: { fontWeight: 'bold' },
-        // }}
+      // screenOptions={{
+      //   headerStyle: { backgroundColor: '#6200ee' },
+      //   headerTintColor: '#fff',
+      //   headerTitleStyle: { fontWeight: 'bold' },
+      // }}
       >
 
 
- 
+
         {user ? (
           // User is logged in - show protected screens
           // WHY: Authenticated users see app content
           <>
-            <Stack.Screen 
-              name="Home" 
+            <Stack.Screen
+              name="Home"
               component={HomeScreen}
               options={{ title: 'Welcome' }}
             />
@@ -60,16 +61,16 @@ function AppNavigator() {
           // User is NOT logged in - show auth screens
           // WHY: Unauthenticated users must login/signup first
           <>
-            <Stack.Screen 
-              name="Login" 
+            <Stack.Screen
+              name="Login"
               component={LoginScreen}
               options={{ headerShown: false }} // Hide header on login
             />
-            <Stack.Screen 
-              name="Signup" 
+            <Stack.Screen
+              name="Signup"
               component={SignupScreen}
               options={{ headerShown: false }}
-              // options={{ title: 'Create Account' }}
+            // options={{ title: 'Create Account' }}
             />
 
           </>
@@ -84,7 +85,9 @@ function AppNavigator() {
 export default function App() {
   return (
     <AuthProvider>
-      <AppNavigator />
+      <ElevenLabsProvider>
+        <AppNavigator />
+      </ElevenLabsProvider>
     </AuthProvider>
   );
 }
