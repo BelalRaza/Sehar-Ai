@@ -13,6 +13,7 @@ import { ElevenLabsProvider } from '@elevenlabs/react-native';
 import LoginScreen from './src/screens/LoginScreen';
 import SignupScreen from './src/screens/SignupScreen';
 import HomeScreen from './src/screens/HomeScreen';
+import SessionScreen from './src/screens/SessionScreen';
 // import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
 
 const Stack = createNativeStackNavigator();
@@ -54,7 +55,12 @@ function AppNavigator() {
             <Stack.Screen
               name="Home"
               component={HomeScreen}
-              options={{ title: 'Welcome' }}
+              // options={{ title: 'Welcome' }}
+            />
+            <Stack.Screen
+              name="Session"
+              component={SessionScreen}
+              options={{ title: 'Session' }}
             />
           </>
         ) : (
