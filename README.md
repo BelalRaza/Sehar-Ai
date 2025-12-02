@@ -194,3 +194,7 @@ Key dependencies in `package.json`:
 | INSTALL_FAILED_INSUFFICIENT_STORAGE | Clear emulator caches or use `adb install -r` directly |
 | Metro bundler issues | Run `npx expo start --clear` |
 
+
+
+eas build -p android --profile development
+npx expo start --host lan

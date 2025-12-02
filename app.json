@@ -5,7 +5,6 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/sehar_text_icon_1764625584428.png",
-    
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
@@ -18,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/sehar_text_icon_1764625584428.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
@@ -35,7 +34,17 @@
           "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone for AI conversations"
         }
       ],
-      ["@livekit/react-native-expo-plugin"]
-    ]
+      [
+        "@livekit/react-native-expo-plugin"
+      ]
+    ],
+    "extra": {
+      "APPWRITE_ENDPOINT": "https://tor.cloud.appwrite.io/v1",
+      "APPWRITE_PROJECT": "69296eb80009f1d5c2e2",
+      "APP_PLATFORM": "com.sehar",
+      "eas": {
+        "projectId": "5c78088b-73e8-43aa-83c9-5c795c8f62b1"
+      }
+    }
   }
 }
