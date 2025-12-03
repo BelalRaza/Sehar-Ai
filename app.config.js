@@ -10,6 +10,8 @@ export default ({ config }) => {
       APPWRITE_PROJECT: process.env.APPWRITE_PROJECT,
       APP_PLATFORM: process.env.APP_PLATFORM,
       EXPO_PUBLIC_AGENT_ID: process.env.EXPO_PUBLIC_AGENT_ID,
+      DB_ID: process.env.DB_ID,
+      COLLECTION_ID: process.env.COLLECTION_ID,
 
     },
   };

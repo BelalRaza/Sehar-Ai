@@ -9,6 +9,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { sessions } from "../utils/sessions";
 import Gradient from "../components/Gradient";
 import * as Brightness from 'expo-brightness';
+import { useNavigation } from "@react-navigation/native";
+// import { useRouter } from "expo-router";
 
 const { width } = Dimensions.get('window');
 
@@ -50,6 +52,7 @@ const DebugInfo = React.memo(({ sessionId, status }) => (
 function SessionContent({ onStatusChange }) {
     const { user } = useAuth();
     const route = useRoute();
+    const navigation = useNavigation();
     const { sessionId } = route.params || {};
     const [conversationId, setConversationId] = useState(null);
 
@@ -138,6 +141,9 @@ function SessionContent({ onStatusChange }) {
     const EndConversation = useCallback(async () => {
         try {
             await conversation.endSession()
+            navigation.navigate("Summary", {
+                conversationId: conversationId
+            });
         }
         catch (e) {
             console.log(e)

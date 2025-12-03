@@ -24,6 +24,7 @@
       "package": "com.test1.sehar"
     },
     "web": {
+      "output": "server",
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
@@ -43,7 +44,7 @@
       "APPWRITE_ENDPOINT": "https://tor.cloud.appwrite.io/v1",
       "APPWRITE_PROJECT": "69296eb80009f1d5c2e2",
       "APP_PLATFORM": "com.sehar",
-      "EXPO_PUBLIC_AGENT_ID": "agent_7701kbgd2erxer988dtd0qqb3p3g",
+      "EXPO_PUBLIC_AGENT_ID": "agent_8201kbhm001qeqcsfd887fchtrh7",
       "eas": {
         "projectId": "c969043d-3d24-4689-90b2-f8e1cef78e00"
       }

@@ -14,6 +14,7 @@ import LoginScreen from './src/screens/LoginScreen';
 import SignupScreen from './src/screens/SignupScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import SessionScreen from './src/screens/SessionScreen';
+import SummaryScreen from './src/screens/SummaryScreen';
 // import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
 
 const Stack = createNativeStackNavigator();
@@ -61,6 +62,11 @@ function AppNavigator() {
               name="Session"
               component={SessionScreen}
               options={{ title: 'Session', headerShown: false }}
+            />
+            <Stack.Screen
+              name="Summary"
+              component={SummaryScreen}
+              options={{ title: 'Summary', headerShown: false }}
             />
           </>
         ) : (
