@@ -1,17 +1,20 @@
 import Gradient from "../components/Gradient";
 import { getConversationSummary } from "../api/ConversationsApi";
 import React, { useEffect, useState } from "react";
-import { Button, ScrollView, StyleSheet, Text, View } from "react-native";
+import { TouchableOpacity, ScrollView, StyleSheet, Text, View, ActivityIndicator } from "react-native";
+import { Ionicons } from '@expo/vector-icons';
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-// import { appwriteConfig } from "../config/appwrite";
-// import { database } from "../config/appwrite";
-// import { ID } from "appwrite";
+import { appwriteConfig, ID } from "../config/appwrite";
+import { database } from "../config/appwrite";
+import { useAuth } from "../hooks/useAuth";
+
 
 
 export default function SummaryScreen() {
     const route = useRoute();
     const navigation = useNavigation();
+    const { user } = useAuth();
     const { conversationId } = route.params || {};
     const [conversation, setConversation] = useState(null);
 
@@ -40,37 +43,38 @@ export default function SummaryScreen() {
 
 
 
-// async function saveAndContinue() {
-//     try {
-//         // 1. Create the document in Appwrite
-//         await database.createDocument(
-//             appwriteConfig.db,
-//             appwriteConfig.collection,
-//             ID.unique(), // Generates a unique ID for the new document
-//             {
-//                 // Data to be saved to the database:
-//                 status: conversation?.status,
-//                 conv_id: conversationId,
-//                 tokens: Number(conversation?.metadata?.cost),
-//                 call_duration_secs: Number(conversation?.metadata?.call_duration_secs),
-                
-//                 // Joins the transcript messages into a single string
-//                 transcript: conversation?.transcript.map((t) => t.message).join("\n"),
-                
-//                 call_summary_title: conversation?.analysis?.call_summary_title,
-                
-//                 // Add any other required fields here...
-//             }
-//         );
-        
-//         // 2. Dismiss the modal/screens after successful save
-//         // router.dismissAll(); 
-//         navigation.navigate("Home")
-        
-//     } catch (error) { // Corrected the catch syntax
-//         console.log("Error saving conversation:", error);
-//     }
-// }
+    async function saveAndContinue() {
+        try {
+            // 1. Create the document in Appwrite
+            await database.createDocument(
+                appwriteConfig.db,
+                appwriteConfig.collection,
+                ID.unique(), // Generates a unique ID for the new document
+                {
+                    // Data to be saved to the database:
+                    status: conversation?.status,
+                    conv_id: conversationId,
+                    tokens: Math.min(Math.max(Number(conversation?.metadata?.cost) || 0, 1), 600),
+                    call_duration_secs: Number(conversation?.metadata?.call_duration_secs),
+
+                    // Joins the transcript messages into a single string
+                    transcript: conversation?.transcript.map((t) => t.message).join("\n"),
+
+                    call_summary_title: conversation?.analysis?.call_summary_title,
+                    user_id: user?.$id,
+
+                    // Add any other required fields here...
+                }
+            );
+
+            // 2. Dismiss the modal/screens after successful save
+            // router.dismissAll(); 
+            navigation.navigate("Home")
+
+        } catch (error) { // Corrected the catch syntax
+            console.log("Error saving conversation:", error);
+        }
+    }
 
 
 
@@ -81,68 +85,99 @@ export default function SummaryScreen() {
     return (
         <>
             <Gradient position="bottom" isSpeaking={false} />
-            <SafeAreaView>
+            <SafeAreaView style={styles.container}>
+                <ScrollView contentContainerStyle={styles.scrollContent}>
 
-                <ScrollView>
-
-                    {/* Display status/loading message if conversation is NOT "done" */}
-                    {isProcessing && (
-                        <View style={{ gap: 16, paddingBottom: 16 }}>
-                            <Text style={styles.title}>We are processing your call...</Text>
-                            <Text style={styles.subtitle}>This may take a few minutes.</Text>
-                            <Text style={styles.subtitle}>
-                                Current status: {conversation?.status}
-                            </Text>
-                            {/* Button to manually check the status again */}
-                            <Button onPress={getSummary} title={isLoading ? "Refreshing..." : "Refresh"} disabled={isLoading} />
-                        </View>
-                    )}
-
-                    {/* Display summary details if conversation status IS "done" */}
-                    {conversation?.status === "done" && conversation.analysis && conversation.metadata && (
-                        <View style={{ gap: 16, paddingBottom: 16 }}>
-                            {/* <Text style={styles.caption}>{conversationId}</Text> */}
-
-                            <Text style={styles.title}>
-                                {conversation.analysis.call_summary_title}
-                            </Text>
-
-                            <Text style={styles.subtitle}>
-                                {conversation.analysis.transcript_summary.trim()}
-                            </Text>
-
-                            {/* Stats Section */}
-                            <Text style={styles.title}>Stats</Text>
-                            <Text style={styles.subtitle}>
-                                {conversation.metadata.call_duration_secs} seconds
-                            </Text>
-                            <Text style={styles.subtitle}>
-                                {conversation.metadata.cost} tokens
-                            </Text>
-                            <Text style={styles.subtitle}>
-                                {new Date(
-                                    // Note: Removed '!' (non-null assertion) for JS cleanliness.
-                                    conversation.metadata.start_time_unix_secs * 1000
-                                ).toLocaleString()}
-                            </Text>
-
-                            {/* Transcript Section */}
-                            <Text style={styles.title}>Transcript</Text>
-                            <Text style={styles.subtitle}>
-                                {/* Map and join the messages from the transcript array */}
-                                {conversation.transcript.map((t) => t.message).join("\n")}
-                            </Text>
-                        </View>
-                    )}
-
-                    <View style={{ alignItems: "center" }}>
-                        <Button
-                            // Corrected the arrow function syntax and the router function name
-                            // onPress={saveAndContinue}
-                            title="Save and continue"
-                        />
+                    {/* Header */}
+                    <View style={styles.header}>
+                        <TouchableOpacity onPress={() => navigation.navigate("Home")} style={styles.backButton}>
+                            <Ionicons name="arrow-back" size={24} color="#333" />
+                        </TouchableOpacity>
+                        <Text style={styles.headerTitle}>Session Summary</Text>
+                        <View style={{ width: 40 }} />
                     </View>
 
+                    {/* Processing State */}
+                    {isProcessing && (
+                        <View style={styles.card}>
+                            <ActivityIndicator size="large" color="#4a90e2" style={{ marginBottom: 20 }} />
+                            <Text style={styles.processingTitle}>Processing your session...</Text>
+                            <Text style={styles.processingSubtitle}>This usually takes a few moments.</Text>
+                            <Text style={styles.statusText}>Status: {conversation?.status}</Text>
+
+                            <TouchableOpacity
+                                onPress={getSummary}
+                                style={[styles.button, styles.outlineButton, { marginTop: 20 }]}
+                                disabled={isLoading}
+                            >
+                                <Text style={styles.outlineButtonText}>{isLoading ? "Refreshing..." : "Refresh Status"}</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
+
+                    {/* Done State */}
+                    {conversation?.status === "done" && conversation.analysis && conversation.metadata && (
+                        <>
+                            {/* Main Summary Card */}
+                            <View style={styles.card}>
+                                <Text style={styles.sectionTitle}>
+                                    {conversation.analysis.call_summary_title}
+                                </Text>
+                                <Text style={styles.summaryText}>
+                                    {conversation.analysis.transcript_summary.trim()}
+                                </Text>
+                            </View>
+
+                            {/* Stats Card */}
+                            <View style={styles.card}>
+                                <Text style={styles.cardHeader}>Session Stats</Text>
+                                <View style={styles.statsRow}>
+                                    <View style={styles.statItem}>
+                                        <Ionicons name="time-outline" size={24} color="#4a90e2" />
+                                        <Text style={styles.statValue}>{conversation.metadata.call_duration_secs}s</Text>
+                                        <Text style={styles.statLabel}>Duration</Text>
+                                    </View>
+                                    <View style={styles.statItem}>
+                                        <Ionicons name="wallet-outline" size={24} color="#4a90e2" />
+                                        <Text style={styles.statValue}>{conversation.metadata.cost}</Text>
+                                        <Text style={styles.statLabel}>Tokens</Text>
+                                    </View>
+                                    <View style={styles.statItem}>
+                                        <Ionicons name="calendar-outline" size={24} color="#4a90e2" />
+                                        <Text style={styles.statValue}>
+                                            {new Date(conversation.metadata.start_time_unix_secs * 1000).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                                        </Text>
+                                        <Text style={styles.statLabel}>Date</Text>
+                                    </View>
+                                </View>
+                            </View>
+
+                            {/* Transcript Card */}
+                            <View style={styles.card}>
+                                <Text style={styles.cardHeader}>Transcript</Text>
+                                <View style={styles.transcriptBox}>
+                                    <Text style={styles.transcriptText}>
+                                        {conversation.transcript.map((t) => t.message).join("\n\n")}
+                                    </Text>
+                                </View>
+                            </View>
+
+                            {/* Action Buttons */}
+                            <View style={styles.actionContainer}>
+                                <TouchableOpacity onPress={saveAndContinue} style={styles.primaryButton}>
+                                    <Text style={styles.primaryButtonText}>Save to History</Text>
+                                    <Ionicons name="checkmark-circle-outline" size={20} color="white" style={{ marginLeft: 8 }} />
+                                </TouchableOpacity>
+
+                            </View>
+                        </>
+                    )}
+
+                    <View style={{ marginTop: 20, marginBottom: 20 }}>
+                        <TouchableOpacity onPress={() => navigation.navigate("Home")} style={[styles.outlineButton, { borderColor: '#666' }]}>
+                            <Text style={[styles.outlineButtonText, { color: '#666' }]}>Back to Home</Text>
+                        </TouchableOpacity>
+                    </View>
                 </ScrollView>
             </SafeAreaView>
         </>
@@ -151,16 +186,140 @@ export default function SummaryScreen() {
 
 // --- StyleSheet Definition ---
 const styles = StyleSheet.create({
-    title: {
-        fontSize: 24,
-        fontWeight: "bold",
+    container: {
+        flex: 1,
     },
-    subtitle: {
+    scrollContent: {
+        padding: 20,
+        paddingBottom: 40,
+    },
+    header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 20,
+    },
+    backButton: {
+        padding: 8,
+        backgroundColor: 'rgba(255,255,255,0.8)',
+        borderRadius: 20,
+    },
+    headerTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#333',
+    },
+    card: {
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        borderRadius: 20,
+        padding: 20,
+        marginBottom: 16,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 8,
+        elevation: 3,
+    },
+    processingTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#333',
+        textAlign: 'center',
+        marginBottom: 8,
+    },
+    processingSubtitle: {
         fontSize: 16,
+        color: '#666',
+        textAlign: 'center',
+        marginBottom: 4,
     },
-    caption: {
+    statusText: {
+        fontSize: 14,
+        color: '#888',
+        textAlign: 'center',
+        marginTop: 8,
+    },
+    sectionTitle: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: '#333',
+        marginBottom: 12,
+    },
+    summaryText: {
+        fontSize: 16,
+        color: '#444',
+        lineHeight: 24,
+    },
+    cardHeader: {
+        fontSize: 18,
+        fontWeight: '600',
+        color: '#333',
+        marginBottom: 16,
+    },
+    statsRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    statItem: {
+        alignItems: 'center',
+        flex: 1,
+    },
+    statValue: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#333',
+        marginTop: 8,
+    },
+    statLabel: {
         fontSize: 12,
-        color: "gray",
+        color: '#666',
+        marginTop: 4,
+    },
+    transcriptBox: {
+        backgroundColor: '#f8f9fa',
+        borderRadius: 12,
+        padding: 12,
+        maxHeight: 200,
+    },
+    transcriptText: {
+        fontSize: 14,
+        color: '#555',
+        lineHeight: 20,
+    },
+    actionContainer: {
+        marginTop: 10,
+        marginBottom: 20,
+    },
+    primaryButton: {
+        backgroundColor: '#4a90e2',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 16,
+        borderRadius: 16,
+        shadowColor: "#4a90e2",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        elevation: 4,
+    },
+    primaryButtonText: {
+        color: 'white',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    outlineButton: {
+        borderWidth: 1,
+        borderColor: '#4a90e2',
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: 12,
+        alignItems: 'center',
+    },
+    outlineButtonText: {
+        color: '#4a90e2',
+        fontSize: 16,
+        fontWeight: '600',
     },
 });
 
