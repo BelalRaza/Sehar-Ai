@@ -9,6 +9,8 @@ export default ({ config }) => {
       APPWRITE_ENDPOINT: process.env.APPWRITE_ENDPOINT,
       APPWRITE_PROJECT: process.env.APPWRITE_PROJECT,
       APP_PLATFORM: process.env.APP_PLATFORM,
+      EXPO_PUBLIC_AGENT_ID: process.env.EXPO_PUBLIC_AGENT_ID,
+
     },
   };
 };

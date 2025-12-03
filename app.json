@@ -36,15 +36,18 @@
       ],
       [
         "@livekit/react-native-expo-plugin"
-      ]
+      ],
+      "expo-brightness"
     ],
     "extra": {
       "APPWRITE_ENDPOINT": "https://tor.cloud.appwrite.io/v1",
       "APPWRITE_PROJECT": "69296eb80009f1d5c2e2",
       "APP_PLATFORM": "com.sehar",
+      "EXPO_PUBLIC_AGENT_ID": "agent_7701kbgd2erxer988dtd0qqb3p3g",
       "eas": {
-        "projectId": "5c78088b-73e8-43aa-83c9-5c795c8f62b1"
+        "projectId": "c969043d-3d24-4689-90b2-f8e1cef78e00"
       }
-    }
+    },
+    "owner": "zayn_ish"
   }
 }

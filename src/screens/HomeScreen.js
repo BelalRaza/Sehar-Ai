@@ -20,7 +20,7 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <Gradient position="top" />
 
-      <ScrollView style={styles.scrollContent}>
+      <ScrollView style={styles.scrollContent} contentInsetAdjustmentBehavior="automatic">
         {/* Header Section */}
         <View style={styles.header}>
           <View>
@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
   },
   greeting: {
     fontSize: 16,
+    fontWeight: 'bold',
     color: '#666',
   },
   username: {

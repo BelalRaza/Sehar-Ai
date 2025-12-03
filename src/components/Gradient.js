@@ -91,16 +91,20 @@ function calculateTargetRadius(baseRadius, isSpeaking) {
   return min + (max - min) * scale
 }
 
+const Colors = {
+  white: "#FFFFFF",
+  teal: "#5AC8FA",
+  mediumBlue: "#007AFF",
+  lightBlue: "#4DA6FF",
+  iceBlue: "#E6F3FF",
+}
 
-
-
-
-export default function Gradient({ position, isSpeaking }) {
-  const animatedY = useSharedValue(0);
+const Gradient = React.memo(({ position, isSpeaking }) => {
+  const animatedY = useSharedValue(getTargetY(position));
 
   // gradient radio button ka size apan chnage karenge 
 
-  const radiusScale = useSharedValue(1);
+  const radiusScale = useSharedValue(RADIUS_CONFIG.quietScale);
   const baseRadiusValue = useSharedValue(RADIUS_CONFIG.baseRadius.default);
   const mountRadius = useSharedValue(0);
 
@@ -116,38 +120,14 @@ export default function Gradient({ position, isSpeaking }) {
   });
 
 
-
-
-
+  // Initial mount animation
   useEffect(() => {
-    const targetY = getTargetY(position);
-    animatedY.value = withSpring(targetY, ANIMATION_CONFIG.spring);
-
-
-  }, [position, animatedY])
-
-
-
-
-  useEffect(() => {
-
-    animatedY.value = getTargetY(position)
-
-  }, [])
-
-
-
-  useEffect(() => {
-
-    const targetRadius = calculateTargetRadius(RADIUS_CONFIG.baseRadius.default, isSpeaking);
+    const targetRadius = calculateTargetRadius(RADIUS_CONFIG.baseRadius.default, false);
     mountRadius.value = withTiming(targetRadius, { duration: ANIMATION_CONFIG.durations.MOUNT })
-
   }, [])
 
 
-
-
-
+  // Handle speaking state changes
   useEffect(() => {
     const duration = ANIMATION_CONFIG.durations.SPEAKING_TRANSITION
 
@@ -155,36 +135,20 @@ export default function Gradient({ position, isSpeaking }) {
     if (isSpeaking) {
       baseRadiusValue.value = withTiming(RADIUS_CONFIG.baseRadius.speaking, { duration });
       animatedY.value = withTiming(getTargetY("center"), { duration });
-
+      radiusScale.value = withRepeat(
+        withTiming(RADIUS_CONFIG.speakingScale, { duration: ANIMATION_CONFIG.durations.PULSE }),
+        -1,
+        true
+      );
     } else {
       baseRadiusValue.value = withTiming(RADIUS_CONFIG.baseRadius.default, { duration });
-
       animatedY.value = withTiming(getTargetY(position), { duration });
-    }
-  }, [
-    isSpeaking,
-    baseRadiusValue,
-    animatedY,
-    position
-  ]);
-
-
-
-  useEffect(() => {
-    if (isSpeaking) {
-      radiusScale.value = withRepeat(withTiming(RADIUS_CONFIG.speakingScale, { duration: ANIMATION_CONFIG.durations.PULSE }), -1, true)
-    }
-    else {
       radiusScale.value = withTiming(RADIUS_CONFIG.quietScale, { duration: ANIMATION_CONFIG.durations.QUIET_TRANSITION });
     }
-
-
-
-
-  }, [isSpeaking, radiusScale])
+  }, [isSpeaking, position]);
 
   return (
-    <View style={StyleSheet.absoluteFill}>
+    <View style={StyleSheet.absoluteFill} pointerEvents="none">
       <Canvas style={{ flex: 1 }}>
         <Rect x={0} y={0} width={width} height={height}>
           <RadialGradient
@@ -197,12 +161,8 @@ export default function Gradient({ position, isSpeaking }) {
       </Canvas>
     </View>
   );
-}
+});
 
-const Colors = {
-  white: "#FFFFFF",
-  teal: "#5AC8FA",
-  mediumBlue: "#007AFF",
-  lightBlue: "#4DA6FF",
-  iceBlue: "#E6F3FF",
-}
+Gradient.displayName = 'Gradient';
+
+export default Gradient;

@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthProvider } from './src/context/AuthContext';
 import { useAuth } from './src/hooks/useAuth';
 import { ActivityIndicator, View } from 'react-native';
-import { ElevenLabsProvider } from '@elevenlabs/react-native';
+
 // import Gradient from './src/components/Gradient';
 
 // Import your screens
@@ -55,12 +55,12 @@ function AppNavigator() {
             <Stack.Screen
               name="Home"
               component={HomeScreen}
-              // options={{ title: 'Welcome' }}
+              options={{ title: 'Welcome', headerShown: false }}
             />
             <Stack.Screen
               name="Session"
               component={SessionScreen}
-              options={{ title: 'Session' }}
+              options={{ title: 'Session', headerShown: false }}
             />
           </>
         ) : (
@@ -90,11 +90,12 @@ function AppNavigator() {
 // WHY: Wraps everything with AuthProvider to enable global auth state
 export default function App() {
   return (
+
     <AuthProvider>
-      <ElevenLabsProvider>
-        <AppNavigator />
-      </ElevenLabsProvider>
+      <AppNavigator />
     </AuthProvider>
+
+
   );
 }
 

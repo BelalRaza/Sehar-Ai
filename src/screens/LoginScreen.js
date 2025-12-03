@@ -233,6 +233,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     padding: 10,
     alignItems: 'center',
+    
     // marginBottom: 20,
   },
   buttonDisabled: {
