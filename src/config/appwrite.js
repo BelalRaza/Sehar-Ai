@@ -39,11 +39,6 @@ const database = new Databases(client);
 // Export everything we need
 export { client, account, ID, appwriteConfig, database };
 
-// WHAT THIS FILE DOES:
-// 1. Creates a client connection to Appwrite
-// 2. Configures it with your project details
-// 3. Exports the account service for authentication operations
-// 4. Exports ID utility for generating unique IDs
 
 
 

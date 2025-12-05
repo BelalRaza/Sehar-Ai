@@ -1,4 +1,4 @@
-// App.js
+
 
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
@@ -7,9 +7,9 @@ import { AuthProvider } from './src/context/AuthContext';
 import { useAuth } from './src/hooks/useAuth';
 import { ActivityIndicator, View } from 'react-native';
 
-// import Gradient from './src/components/Gradient';
 
-// Import your screens
+
+
 import LoginScreen from './src/screens/LoginScreen';
 import SignupScreen from './src/screens/SignupScreen';
 import HomeScreen from './src/screens/HomeScreen';
@@ -19,13 +19,11 @@ import SummaryScreen from './src/screens/SummaryScreen';
 
 const Stack = createNativeStackNavigator();
 
-// Navigation Logic Component
-// WHY: Decides which screens to show based on auth state
+
 function AppNavigator() {
   const { user, loading } = useAuth();
 
-  // Show loading spinner while checking auth status
-  // WHY: Prevents flash of wrong screen during auth check
+
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -38,14 +36,7 @@ function AppNavigator() {
 
     <NavigationContainer>
 
-      <Stack.Navigator
-
-      // screenOptions={{
-      //   headerStyle: { backgroundColor: '#6200ee' },
-      //   headerTintColor: '#fff',
-      //   headerTitleStyle: { fontWeight: 'bold' },
-      // }}
-      >
+      <Stack.Navigator>
 
 
 

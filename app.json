@@ -40,11 +40,11 @@
       ],
       "expo-brightness"
     ],
-    "extra": {
+   "extra": {
       "APPWRITE_ENDPOINT": "https://tor.cloud.appwrite.io/v1",
       "APPWRITE_PROJECT": "69296eb80009f1d5c2e2",
       "APP_PLATFORM": "com.sehar",
-      "EXPO_PUBLIC_AGENT_ID": "agent_8201kbhm001qeqcsfd887fchtrh7",
+      "EXPO_PUBLIC_AGENT_ID": "agent_0901kbn2z8vgfkpv8pe0sjdsqzfk",
       "eas": {
         "projectId": "c969043d-3d24-4689-90b2-f8e1cef78e00"
       }

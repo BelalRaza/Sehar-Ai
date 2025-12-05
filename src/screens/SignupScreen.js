@@ -108,7 +108,7 @@ export default function SignupScreen({ navigation }) {
             editable={!localLoading}
           />
         </View>
-
+ 
         {/* Email Input */}
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Email</Text>

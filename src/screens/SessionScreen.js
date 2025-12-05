@@ -95,7 +95,7 @@ function SessionContent({ onStatusChange }) {
         }
     }
 
-
+//
     const conversation = useConversation({
         onConnect,
         onDisconnect,
@@ -150,7 +150,7 @@ function SessionContent({ onStatusChange }) {
         }
     }, [conversation]);
 
-    return (
+    return ( 
         <SafeAreaView style={styles.safeArea}>
             <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={styles.scrollContent}>
                 <View style={styles.container}>

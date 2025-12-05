@@ -18,8 +18,6 @@ import { useAuth } from '../hooks/useAuth';
 import validation from '../utils/validation';
 import Gradient from '../components/Gradient';
 
-// LoginScreen Component
-// WHY: Provides UI for users to login with email/password
 export default function LoginScreen({ navigation }) {
   
   // Local state for form inputs
@@ -27,18 +25,14 @@ export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState('');
   const [localLoading, setLocalLoading] = useState(false);
 
-  // Get login function from auth context
-  // WHY: Access centralized auth logic without prop drilling
+  
   const { login } = useAuth();
 
-  // Handle login button press
-  // WHY: Validates inputs and calls login function
   const handleLogin = async () => {
     try {
       console.log('🔐 Login attempt started');
       
-      // Validate inputs before API call
-      // WHY: Catch errors early, provide better UX
+      
       const validationResult = validation.validateLoginForm(email, password);
       console.log('📋 Validation result:', validationResult);
       
@@ -51,13 +45,10 @@ export default function LoginScreen({ navigation }) {
 
       console.log('📤 Sending login request with:', { email });
       
-      // Call login from AuthContext
-      // WHY: This updates global auth state and triggers re-render
       await login(email, password);
       
       console.log('✅ Login successful!');
-      // Success! Navigation happens automatically in App.js
-      // WHY: When user state changes, App.js re-renders and shows HomeScreen
+
       
     } catch (error) {
       console.error('❌ Login error:', error);
@@ -67,8 +58,7 @@ export default function LoginScreen({ navigation }) {
         fullError: error
       });
       
-      // Show user-friendly error messages
-      // WHY: Better UX than showing raw API errors
+     
       const errorMessage = error.message || 'Login failed. Please try again.';
       Alert.alert('Login Error', errorMessage);
       
@@ -260,12 +250,3 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 });
-
-// WHAT THIS FILE DOES:
-// 1. Provides login form UI with email/password inputs
-// 2. Validates inputs before submitting
-// 3. Calls login() from AuthContext
-// 4. Shows loading state during login
-// 5. Displays error messages if login fails
-// 6. Navigates to Signup/ForgotPassword screens
-// 7. Auto-navigates to HomeScreen on success (via App.js)

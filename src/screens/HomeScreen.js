@@ -58,7 +58,7 @@ export default function HomeScreen() {
     }
   };
 
-  const deleteSession = async (sessionId) => {
+  const   deleteSession = async (sessionId) => {
     try {
       await database.deleteDocument(
         appwriteConfig.db,
@@ -167,7 +167,7 @@ const AccountCard = ({ user, onLogout }) => (
       <Text style={styles.signOutText}>Sign Out</Text>
     </TouchableOpacity>
   </View>
-);
+);               
 
 const SessionCard = ({ session, onDelete }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -177,7 +177,7 @@ const SessionCard = ({ session, onDelete }) => {
     return emojis[Math.floor(Math.random() * emojis.length)];
   }, []);
 
-  const primaryColor = "#4a90e2"; // Define a primary color
+  const primaryColor = "#4a90e2";
 
   const handleDelete = () => {
     Alert.alert(
